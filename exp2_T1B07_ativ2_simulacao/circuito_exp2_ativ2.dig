@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="utf-8"?>
+<circuit>
+  <version>2</version>
+  <attributes/>
+  <visualElements>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>ZERA</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-540" y="-180"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>CARREGA</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-540" y="-140"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>CONTA</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-540" y="-100"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>CLOCK</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-540" y="-20"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>CONTAGEM</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>4</int>
+        </entry>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>bin</intFormat>
+        </entry>
+      </elementAttributes>
+      <pos x="-40" y="-240"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>FIM</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-40" y="-180"/>
+    </visualElement>
+    <visualElement>
+      <elementName>VDD</elementName>
+      <elementAttributes/>
+      <pos x="-340" y="-240"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Not</elementName>
+      <elementAttributes/>
+      <pos x="-500" y="-180"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Not</elementName>
+      <elementAttributes/>
+      <pos x="-500" y="-140"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>DADO</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>4</int>
+        </entry>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>bin</intFormat>
+        </entry>
+      </elementAttributes>
+      <pos x="-540" y="80"/>
+    </visualElement>
+    <visualElement>
+      <elementName>VDD</elementName>
+      <elementAttributes/>
+      <pos x="-120" y="-60"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Ground</elementName>
+      <elementAttributes/>
+      <pos x="-160" y="100"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>MENOR</string>
+        </entry>
+      </elementAttributes>
+      <pos x="120" y="-20"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>MAIOR</string>
+        </entry>
+      </elementAttributes>
+      <pos x="120" y="20"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>IGUAL</string>
+        </entry>
+      </elementAttributes>
+      <pos x="120" y="60"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>IVERILOG</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>contador_163</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>clock,clr,ld,ent,enp,D:4</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>5</int>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>//------------------------------------------------------------------
+// Arquivo   : contador_163.v
+// Projeto   : Experiencia 2 - Um Fluxo de Dados Simples
+//------------------------------------------------------------------
+// Descricao : Contador binario de 4 bits, modulo 16
+//             similar ao componente 74163
+//
+// baseado no componente Vrcntr4u.v do livro Digital Design Principles 
+// and Practices, Fifth Edition, by John F. Wakerly              
+//------------------------------------------------------------------
+// Revisoes  :
+//     Data        Versao  Autor             Descricao
+//     14/12/2023  1.0     Edson Midorikawa  versao inicial
+//------------------------------------------------------------------
+//
+module contador_163 ( clock, clr, ld, ent, enp, D, Q, rco );
+    input clock, clr, ld, ent, enp;
+    input [3:0] D;
+    output reg [3:0] Q;
+    output reg rco;
+
+    always @ (posedge clock)
+        if (~clr)               Q &lt;= 4&apos;d0;
+        else if (~ld)           Q &lt;= D;
+        else if (ent &amp;&amp; enp)    Q &lt;= Q + 1&apos;b1;
+        else                    Q &lt;= Q;
+ 
+    always @ (Q or ent)
+        if (ent &amp;&amp; (Q == 4&apos;d15))   rco = 1;
+        else                       rco = 0;
+endmodule</string>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>Q:4,rco</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-300" y="-200"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>IVERILOG</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>comparador_85</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>A:4,B:4,ALBi,AGBi,AEBi</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>6</int>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>/* -----------------------------------------------------------------
+ *  Arquivo   : comparador_85.v
+ *  Projeto   : Experiencia 2 - Um Fluxo de Dados Simples
+ * -----------------------------------------------------------------
+ * Descricao : comparador de magnitude de 4 bits 
+ *             similar ao CI 7485
+ *             baseado em descricao comportamental disponivel em	
+ * https://web.eecs.umich.edu/~jhayes/iscas.restore/74L85b.v
+ * -----------------------------------------------------------------
+ * Revisoes  :
+ *     Data        Versao  Autor             Descricao
+ *     21/12/2023  1.0     Edson Midorikawa  criacao
+ * -----------------------------------------------------------------
+ */
+
+module comparador_85 (ALBi, AGBi, AEBi, A, B, ALBo, AGBo, AEBo);
+
+    input[3:0] A, B;
+    input      ALBi, AGBi, AEBi;
+    output     ALBo, AGBo, AEBo;
+    wire[4:0]  CSL, CSG;
+
+    assign CSL  = ~A + B + ALBi;
+    assign ALBo = ~CSL[4];
+    assign CSG  = A + ~B + AGBi;
+    assign AGBo = ~CSG[4];
+    assign AEBo = ((A == B) &amp;&amp; AEBi);
+
+endmodule /* comparador_85 */</string>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>ALBo,AGBo,AEBo</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-80" y="-20"/>
+    </visualElement>
+    <visualElement>
+      <elementName>External</elementName>
+      <elementAttributes>
+        <entry>
+          <string>applicationType</string>
+          <appType>IVERILOG</appType>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>circuito_exp2_ativ2</string>
+        </entry>
+        <entry>
+          <string>externalInputs</string>
+          <string>clock,zera,carrega,conta,chaves:4</string>
+        </entry>
+        <entry>
+          <string>Width</string>
+          <int>8</int>
+        </entry>
+        <entry>
+          <string>Code</string>
+          <string>/*
+ * ------------------------------------------------------------------
+ *  Arquivo   : circuito_exp2_ativ2-PARCIAL.v
+ *  Projeto   : Experiencia 2 - Um Fluxo de Dados Simples
+ * ------------------------------------------------------------------
+ *  Descricao : Circuito PARCIAL do fluxo de dados da Atividade 2
+ * 
+ *     1) COMPLETAR DESCRICAO
+ * 
+ * ------------------------------------------------------------------
+ *  Revisoes  :
+ *      Data        Versao  Autor             Descricao
+ *      11/01/2024  1.0     Edson Midorikawa  versao inicial
+ * ------------------------------------------------------------------
+ */
+
+module circuito_exp2_ativ2 (clock, zera, carrega, conta, chaves, 
+                            menor, maior, igual, fim, db_contagem);
+    input        clock;
+    input        zera;
+    input        carrega;
+    input        conta;
+    input  [3:0] chaves;
+    output       menor;
+    output       maior;
+    output       igual;
+    output       fim;
+    output [3:0] db_contagem;
+
+    wire   [3:0] s_contagem;  // sinal interno para interligacao dos componentes
+
+    // contador_163
+    contador_163 contador (
+      .clock( clock ),
+      .clr  ( ~zera ),
+      .ld   ( ~carrega ),
+      .ent  ( 1&apos;b1 ),
+      .enp  ( conta ),
+      .D    ( chaves ),
+      .Q    ( s_contagem ),
+      .rco  ( fim )
+    );
+
+    // comparador_85
+    comparador_85 comparador (
+      .A   ( s_contagem ),
+      .B   ( chaves ),
+      .ALBi( 1&apos;b0 ),
+      .AGBi( 1&apos;b0 ),
+      .AEBi( 1&apos;b1 ),
+      .ALBo( menor ),
+      .AGBo( maior ),
+      .AEBo( igual )
+    );
+
+    // saida de depuracao
+    assign db_contagem = s_contagem;
+
+ endmodule
+//------------------------------------------------------------------
+// Arquivo   : contador_163.v
+/* -----------------------------------------------------------------
+ *  Arquivo   : comparador_85.v
+ *  Projeto   : Experiencia 2 - Um Fluxo de Dados Simples
+ * -----------------------------------------------------------------
+ * Descricao : comparador de magnitude de 4 bits 
+ *             similar ao CI 7485
+ *             baseado em descricao comportamental disponivel em	
+ * https://web.eecs.umich.edu/~jhayes/iscas.restore/74L85b.v
+ * -----------------------------------------------------------------
+ * Revisoes  :
+ *     Data        Versao  Autor             Descricao
+ *     21/12/2023  1.0     Edson Midorikawa  criacao
+ * -----------------------------------------------------------------
+ */
+
+module comparador_85 (ALBi, AGBi, AEBi, A, B, ALBo, AGBo, AEBo);
+
+    input[3:0] A, B;
+    input      ALBi, AGBi, AEBi;
+    output     ALBo, AGBo, AEBo;
+    wire[4:0]  CSL, CSG;
+
+    assign CSL  = ~A + B + ALBi;
+    assign ALBo = ~CSL[4];
+    assign CSG  = A + ~B + AGBi;
+    assign AGBo = ~CSG[4];
+    assign AEBo = ((A == B) &amp;&amp; AEBi);
+
+endmodule /* comparador_85 */
+// Projeto   : Experiencia 2 - Um Fluxo de Dados Simples
+//------------------------------------------------------------------
+// Descricao : Contador binario de 4 bits, modulo 16
+//             similar ao componente 74163
+//
+// baseado no componente Vrcntr4u.v do livro Digital Design Principles 
+// and Practices, Fifth Edition, by John F. Wakerly              
+//------------------------------------------------------------------
+// Revisoes  :
+//     Data        Versao  Autor             Descricao
+//     14/12/2023  1.0     Edson Midorikawa  versao inicial
+//------------------------------------------------------------------
+//
+module contador_163 ( clock, clr, ld, ent, enp, D, Q, rco );
+    input clock, clr, ld, ent, enp;
+    input [3:0] D;
+    output reg [3:0] Q;
+    output reg rco;
+
+    always @ (posedge clock)
+        if (~clr)               Q &lt;= 4&apos;d0;
+        else if (~ld)           Q &lt;= D;
+        else if (ent &amp;&amp; enp)    Q &lt;= Q + 1&apos;b1;
+        else                    Q &lt;= Q;
+ 
+    always @ (Q or ent)
+        if (ent &amp;&amp; (Q == 4&apos;d15))   rco = 1;
+        else                       rco = 0;
+endmodule</string>
+        </entry>
+        <entry>
+          <string>externalOutputs</string>
+          <string>menor,maior,igual,fim,db_contagem:4</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-420" y="240"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>Zera</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-540" y="260"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Button</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>Clock</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-540" y="220"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>Carrega</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-540" y="300"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>Conta</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-540" y="340"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>Dado</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>4</int>
+        </entry>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>bin</intFormat>
+        </entry>
+      </elementAttributes>
+      <pos x="-540" y="380"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color>
+            <red>102</red>
+            <green>255</green>
+            <blue>102</blue>
+            <alpha>255</alpha>
+          </awt-color>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>Menor</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-160" y="200"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>Maior</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-160" y="240"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color>
+            <red>0</red>
+            <green>153</green>
+            <blue>255</blue>
+            <alpha>255</alpha>
+          </awt-color>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>Igual</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-160" y="280"/>
+    </visualElement>
+    <visualElement>
+      <elementName>LED</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Color</string>
+          <awt-color>
+            <red>255</red>
+            <green>204</green>
+            <blue>102</blue>
+            <alpha>255</alpha>
+          </awt-color>
+        </entry>
+        <entry>
+          <string>Label</string>
+          <string>Fim</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-160" y="320"/>
+    </visualElement>
+    <visualElement>
+      <elementName>Out</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>Contagem</string>
+        </entry>
+        <entry>
+          <string>Bits</string>
+          <int>4</int>
+        </entry>
+        <entry>
+          <string>intFormat</string>
+          <intFormat>bin</intFormat>
+        </entry>
+      </elementAttributes>
+      <pos x="-160" y="360"/>
+    </visualElement>
+  </visualElements>
+  <wires>
+    <wire>
+      <p1 x="-360" y="0"/>
+      <p2 x="-80" y="0"/>
+    </wire>
+    <wire>
+      <p1 x="40" y="0"/>
+      <p2 x="100" y="0"/>
+    </wire>
+    <wire>
+      <p1 x="-480" y="320"/>
+      <p2 x="-420" y="320"/>
+    </wire>
+    <wire>
+      <p1 x="-260" y="320"/>
+      <p2 x="-240" y="320"/>
+    </wire>
+    <wire>
+      <p1 x="-220" y="320"/>
+      <p2 x="-160" y="320"/>
+    </wire>
+    <wire>
+      <p1 x="-540" y="-100"/>
+      <p2 x="-420" y="-100"/>
+    </wire>
+    <wire>
+      <p1 x="-360" y="-100"/>
+      <p2 x="-300" y="-100"/>
+    </wire>
+    <wire>
+      <p1 x="-540" y="260"/>
+      <p2 x="-420" y="260"/>
+    </wire>
+    <wire>
+      <p1 x="-260" y="260"/>
+      <p2 x="-220" y="260"/>
+    </wire>
+    <wire>
+      <p1 x="-200" y="-200"/>
+      <p2 x="-160" y="-200"/>
+    </wire>
+    <wire>
+      <p1 x="-400" y="-200"/>
+      <p2 x="-300" y="-200"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="40"/>
+      <p2 x="-80" y="40"/>
+    </wire>
+    <wire>
+      <p1 x="-240" y="360"/>
+      <p2 x="-160" y="360"/>
+    </wire>
+    <wire>
+      <p1 x="-240" y="200"/>
+      <p2 x="-160" y="200"/>
+    </wire>
+    <wire>
+      <p1 x="-540" y="-140"/>
+      <p2 x="-500" y="-140"/>
+    </wire>
+    <wire>
+      <p1 x="-460" y="-140"/>
+      <p2 x="-440" y="-140"/>
+    </wire>
+    <wire>
+      <p1 x="-420" y="-140"/>
+      <p2 x="-300" y="-140"/>
+    </wire>
+    <wire>
+      <p1 x="-540" y="300"/>
+      <p2 x="-520" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="-500" y="300"/>
+      <p2 x="-420" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="-260" y="300"/>
+      <p2 x="-220" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="-240"/>
+      <p2 x="-40" y="-240"/>
+    </wire>
+    <wire>
+      <p1 x="-540" y="80"/>
+      <p2 x="-360" y="80"/>
+    </wire>
+    <wire>
+      <p1 x="-520" y="240"/>
+      <p2 x="-420" y="240"/>
+    </wire>
+    <wire>
+      <p1 x="-220" y="240"/>
+      <p2 x="-160" y="240"/>
+    </wire>
+    <wire>
+      <p1 x="-260" y="240"/>
+      <p2 x="-240" y="240"/>
+    </wire>
+    <wire>
+      <p1 x="-200" y="-180"/>
+      <p2 x="-40" y="-180"/>
+    </wire>
+    <wire>
+      <p1 x="-540" y="-180"/>
+      <p2 x="-500" y="-180"/>
+    </wire>
+    <wire>
+      <p1 x="-460" y="-180"/>
+      <p2 x="-300" y="-180"/>
+    </wire>
+    <wire>
+      <p1 x="-540" y="-20"/>
+      <p2 x="-400" y="-20"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="-20"/>
+      <p2 x="-80" y="-20"/>
+    </wire>
+    <wire>
+      <p1 x="40" y="-20"/>
+      <p2 x="120" y="-20"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="20"/>
+      <p2 x="-80" y="20"/>
+    </wire>
+    <wire>
+      <p1 x="100" y="20"/>
+      <p2 x="120" y="20"/>
+    </wire>
+    <wire>
+      <p1 x="40" y="20"/>
+      <p2 x="80" y="20"/>
+    </wire>
+    <wire>
+      <p1 x="-540" y="340"/>
+      <p2 x="-500" y="340"/>
+    </wire>
+    <wire>
+      <p1 x="-340" y="-120"/>
+      <p2 x="-300" y="-120"/>
+    </wire>
+    <wire>
+      <p1 x="-520" y="280"/>
+      <p2 x="-420" y="280"/>
+    </wire>
+    <wire>
+      <p1 x="-260" y="280"/>
+      <p2 x="-160" y="280"/>
+    </wire>
+    <wire>
+      <p1 x="-120" y="60"/>
+      <p2 x="-80" y="60"/>
+    </wire>
+    <wire>
+      <p1 x="80" y="60"/>
+      <p2 x="120" y="60"/>
+    </wire>
+    <wire>
+      <p1 x="-540" y="380"/>
+      <p2 x="-480" y="380"/>
+    </wire>
+    <wire>
+      <p1 x="-540" y="220"/>
+      <p2 x="-520" y="220"/>
+    </wire>
+    <wire>
+      <p1 x="-440" y="-160"/>
+      <p2 x="-300" y="-160"/>
+    </wire>
+    <wire>
+      <p1 x="-420" y="-140"/>
+      <p2 x="-420" y="-100"/>
+    </wire>
+    <wire>
+      <p1 x="100" y="0"/>
+      <p2 x="100" y="20"/>
+    </wire>
+    <wire>
+      <p1 x="-360" y="-100"/>
+      <p2 x="-360" y="0"/>
+    </wire>
+    <wire>
+      <p1 x="-360" y="0"/>
+      <p2 x="-360" y="80"/>
+    </wire>
+    <wire>
+      <p1 x="-520" y="280"/>
+      <p2 x="-520" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="-520" y="220"/>
+      <p2 x="-520" y="240"/>
+    </wire>
+    <wire>
+      <p1 x="-400" y="-200"/>
+      <p2 x="-400" y="-20"/>
+    </wire>
+    <wire>
+      <p1 x="-240" y="320"/>
+      <p2 x="-240" y="360"/>
+    </wire>
+    <wire>
+      <p1 x="-240" y="200"/>
+      <p2 x="-240" y="240"/>
+    </wire>
+    <wire>
+      <p1 x="80" y="20"/>
+      <p2 x="80" y="60"/>
+    </wire>
+    <wire>
+      <p1 x="-340" y="-240"/>
+      <p2 x="-340" y="-120"/>
+    </wire>
+    <wire>
+      <p1 x="-500" y="300"/>
+      <p2 x="-500" y="340"/>
+    </wire>
+    <wire>
+      <p1 x="-440" y="-160"/>
+      <p2 x="-440" y="-140"/>
+    </wire>
+    <wire>
+      <p1 x="-120" y="-60"/>
+      <p2 x="-120" y="60"/>
+    </wire>
+    <wire>
+      <p1 x="-220" y="300"/>
+      <p2 x="-220" y="320"/>
+    </wire>
+    <wire>
+      <p1 x="-220" y="240"/>
+      <p2 x="-220" y="260"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="-240"/>
+      <p2 x="-160" y="-200"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="20"/>
+      <p2 x="-160" y="40"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="-200"/>
+      <p2 x="-160" y="-20"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="40"/>
+      <p2 x="-160" y="100"/>
+    </wire>
+    <wire>
+      <p1 x="-480" y="320"/>
+      <p2 x="-480" y="380"/>
+    </wire>
+  </wires>
+  <measurementOrdering/>
+</circuit>
